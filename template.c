@@ -136,9 +136,13 @@ int runIt() {
 
   {% if options.local_thread_execution %}
   local_thread_execution();
-  { % endif % }
+  {% endif %}
 
-  Sleep(5000);
+
+  do {
+    Sleep(5000);
+  } while(1);
+
 
   return 0;
 }
@@ -157,7 +161,7 @@ int runItOnLoad() {
 
   {% if options.local_thread_execution %}
   local_thread_execution();
-  { % endif % }
+  {% endif %}
 
   return 0;
 }
@@ -168,11 +172,13 @@ BOOL APIENTRY DllMain(HMODULE hModule, DWORD  ul_reason_for_call, LPVOID lpReser
 	switch (ul_reason_for_call)
 	{
 	case DLL_PROCESS_ATTACH:
-		runItOnLoad();break;
+    runItOnLoad();
+    break;
 	case DLL_PROCESS_DETACH:
 		break;
 	case DLL_THREAD_ATTACH:
-		runIt();break;
+    //runIt();
+    break;
 	case DLL_THREAD_DETACH:
 		break;
 	}
